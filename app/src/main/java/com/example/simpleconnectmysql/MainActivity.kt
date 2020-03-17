@@ -1,6 +1,7 @@
 package com.example.simpleconnectmysql
 
 import android.Manifest
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
@@ -12,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidnetworking.AndroidNetworking
@@ -67,14 +69,14 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        isPortOpen("192.168.0.13", 8686, 3000)
+        isPortOpen("192.168.0.161", 8686, 3000)
 
         val okHttpClient = OkHttpClient().newBuilder()
             .addNetworkInterceptor(StethoInterceptor())
             .build()
         AndroidNetworking.initialize(applicationContext, okHttpClient)
 
-        supportActionBar?.title = "Data Mahasiswa"
+        supportActionBar?.title = "Data Obat"
         mRecyclerView.setHasFixedSize(true)
         mRecyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -164,10 +166,10 @@ class MainActivity : AppCompatActivity() {
                         val jsonObject = jsonArray?.optJSONObject(i)
                         arrayList.add(
                             Students(
-                                jsonObject.getString("nim"),
-                                jsonObject.getString("name"),
-                                jsonObject.getString("address"),
-                                jsonObject.getString("gender")
+                                jsonObject.getString("code_obat"),
+                                jsonObject.getString("nama_obat"),
+                                jsonObject.getString("harga_obat"),
+                                jsonObject.getString("jenis_obat")
                             )
                         )
 
@@ -175,12 +177,16 @@ class MainActivity : AppCompatActivity() {
 
                             loading.dismiss()
                             val adapter = RVAdapterStudent(arrayList)
-                            mRecyclerView.setLayoutManager(
-                                LinearLayoutManager(
-                                    this@MainActivity, RecyclerView.VERTICAL,
-                                    false
-                                )
-                            )
+//                            mRecyclerView.setLayoutManager(
+//                                LinearLayoutManager(
+//                                    this@MainActivity, RecyclerView.VERTICAL,
+//                                    false
+//                                )
+//                            )
+                            mRecyclerView.apply {
+                                layoutManager = GridLayoutManager(context as Activity, 2)
+                            }
+
                             adapter.notifyDataSetChanged()
                             mRecyclerView.adapter = adapter
                             mRecyclerView.setHasFixedSize(true)

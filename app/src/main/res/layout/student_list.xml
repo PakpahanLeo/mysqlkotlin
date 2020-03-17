@@ -7,17 +7,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
 
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="5dp"
+            android:layout_height="150dp"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
             tools:ignore="MissingConstraints">
@@ -32,8 +29,7 @@
                     android:id="@+id/lbNimList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="00000"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="#0054a6"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -41,19 +37,19 @@
                     android:id="@+id/lbNameList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Nama : ABC" />
+                    android:textColor="#000" />
 
                 <TextView
                     android:id="@+id/lbAddressList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Alamat : ABC" />
+                    android:textColor="#000" />
 
                 <TextView
                     android:id="@+id/lbGenderList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Jenkel : Pria" />
+                    android:textColor="#000" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

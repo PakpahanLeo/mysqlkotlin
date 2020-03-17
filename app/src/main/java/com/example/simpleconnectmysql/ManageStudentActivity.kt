@@ -19,11 +19,12 @@ import org.json.JSONObject
 
 class ManageStudentActivity : AppCompatActivity() {
     lateinit var i: Intent
-    private var gender = "Pria"
+    private var jenis_obat = "Obat Keras"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_student)
+        supportActionBar?.title = "Atur Data Obat"
         i = intent
         if (i.hasExtra("editmode")) {
             if (i.getStringExtra("editmode").equals("1")) {
@@ -36,11 +37,11 @@ class ManageStudentActivity : AppCompatActivity() {
             when (i) {
 
                 R.id.radioBoy -> {
-                    gender = "Pria"
+                    jenis_obat = "Obat Keras"
                 }
 
                 R.id.radioGirl -> {
-                    gender = "Wanita"
+                    jenis_obat = "Non Obat Keras"
                 }
 
             }
@@ -72,18 +73,18 @@ class ManageStudentActivity : AppCompatActivity() {
     }
 
     private fun onEditMode() {
-        txNim.setText(i.getStringExtra("nim"))
-        txName.setText(i.getStringExtra("name"))
-        txAddress.setText(i.getStringExtra("address"))
+        txNim.setText(i.getStringExtra("kode_obat"))
+        txName.setText(i.getStringExtra("nama_obat"))
+        txAddress.setText(i.getStringExtra("harga_obat"))
         txNim.isEnabled = false
 
         btnCreate.visibility = View.GONE
         btnUpdate.visibility = View.VISIBLE
         btnDelete.visibility = View.VISIBLE
 
-        gender = i.getStringExtra("gender")
+        jenis_obat = i.getStringExtra("jenis_obat")
 
-        if (gender.equals("Pria")) {
+        if (jenis_obat.equals("Obat Keras")) {
             rgGender.check(R.id.radioBoy)
         } else {
             rgGender.check(R.id.radioGirl)
@@ -97,7 +98,7 @@ class ManageStudentActivity : AppCompatActivity() {
         loading.setMessage("Menghapus data...")
         loading.show()
 
-        AndroidNetworking.get(ApiEndPoint.DELETE + "?nim=" + txNim.text.toString())
+        AndroidNetworking.get(ApiEndPoint.DELETE + "?code_obat=" + txNim.text.toString())
             .setPriority(Priority.MEDIUM)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
@@ -136,10 +137,10 @@ class ManageStudentActivity : AppCompatActivity() {
         loading.show()
 
         AndroidNetworking.post(ApiEndPoint.UPDATE)
-            .addBodyParameter("nim", txNim.text.toString())
-            .addBodyParameter("name", txName.text.toString())
-            .addBodyParameter("address", txAddress.text.toString())
-            .addBodyParameter("gender", gender)
+            .addBodyParameter("code_obat", txNim.text.toString())
+            .addBodyParameter("nama_obat", txName.text.toString())
+            .addBodyParameter("harga_obat", txAddress.text.toString())
+            .addBodyParameter("jenis_obat", jenis_obat)
             .setPriority(Priority.MEDIUM)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
@@ -178,10 +179,10 @@ class ManageStudentActivity : AppCompatActivity() {
         loading.show()
 
         AndroidNetworking.post(ApiEndPoint.CREATE)
-            .addBodyParameter("nim", txNim.text.toString())
-            .addBodyParameter("name", txName.text.toString())
-            .addBodyParameter("address", txAddress.text.toString())
-            .addBodyParameter("gender", gender)
+            .addBodyParameter("code_obat", txNim.text.toString())
+            .addBodyParameter("nama_obat", txName.text.toString())
+            .addBodyParameter("harga_obat", txAddress.text.toString())
+            .addBodyParameter("jenis_obat", jenis_obat)
             .setPriority(Priority.MEDIUM)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {

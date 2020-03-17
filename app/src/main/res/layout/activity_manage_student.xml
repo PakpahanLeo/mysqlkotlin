@@ -11,34 +11,46 @@
         android:id="@+id/txNim"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/radius_edittext"
         android:ems="10"
-        android:hint="NIM"
-        android:inputType="number" />
+        android:hint="Kode Obat"
+        android:inputType="number"
+        android:padding="12dp" />
 
     <EditText
         android:id="@+id/txName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/radius_edittext"
         android:ems="10"
-        android:hint="Nama"
-        android:inputType="textPersonName" />
+        android:hint="Nama Obat"
+        android:inputType="textPersonName"
+        android:padding="12dp" />
 
     <EditText
         android:id="@+id/txAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/radius_edittext"
         android:ems="10"
-        android:hint="Alamat"
-        android:inputType="textMultiLine" />
+        android:hint="Harga Obat"
+        android:inputType="text"
+        android:padding="12dp" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:layout_marginLeft="2dp"
-        android:layout_marginTop="10dp"
         android:layout_marginRight="2dp"
-        android:text="Jenis Kelamin"
+        android:paddingLeft="12dp"
+        android:paddingTop="12dp"
+        android:paddingRight="12dp"
+        android:text="Jenis Obat"
         android:textSize="16sp" />
 
     <RadioGroup
@@ -48,7 +60,9 @@
         android:layout_marginLeft="2dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="2dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
 
         <RadioButton
             android:id="@+id/radioBoy"
@@ -56,35 +70,49 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
-            android:text="Pria" />
+            android:text="Obat Keras" />
 
         <RadioButton
             android:id="@+id/radioGirl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Wanita" />
+            android:text="Non Obat Keras" />
     </RadioGroup>
 
     <Button
         android:id="@+id/btnCreate"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:text="TAMBAH" />
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/radius_button"
+        android:text="Tambah Obat"
+        android:textAllCaps="false"
+        android:textColor="#fff" />
 
     <Button
         android:id="@+id/btnUpdate"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="UBAH"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/radius_button"
+        android:text="Ubah Obat"
+        android:textAllCaps="false"
+        android:textColor="#fff"
         android:visibility="gone" />
 
     <Button
         android:id="@+id/btnDelete"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="HAPUS"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/radius_button"
+        android:text="Hapus Obat"
+        android:textAllCaps="false"
+        android:textColor="#fff"
         android:visibility="gone" />
 
 </LinearLayout>
