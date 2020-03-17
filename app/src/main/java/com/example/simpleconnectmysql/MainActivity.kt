@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity() {
         val loading = ProgressDialog(this)
         loading.setMessage("Memuat data...")
         loading.show()
-
+        AndroidNetworking.enableLogging()
         AndroidNetworking.get(ApiEndPoint.READ)
             .setPriority(Priority.MEDIUM)
             .build()
@@ -152,6 +152,7 @@ class MainActivity : AppCompatActivity() {
                     arrayList.clear()
 
                     val jsonArray = response?.optJSONArray("result")
+                    Log.d("jsonResponse", "jsonArray : " + jsonArray);
 
                     if (jsonArray?.length() == 0) {
                         loading.dismiss()

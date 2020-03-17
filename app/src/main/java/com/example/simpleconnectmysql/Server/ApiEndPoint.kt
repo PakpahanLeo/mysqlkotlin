@@ -7,5 +7,6 @@ class ApiEndPoint {
         val READ = SERVER + "read.php"
         val DELETE = SERVER + "delete.php"
         val UPDATE = SERVER + "update.php"
+        val AUTH = SERVER + "auth/index.php"
     }
 }

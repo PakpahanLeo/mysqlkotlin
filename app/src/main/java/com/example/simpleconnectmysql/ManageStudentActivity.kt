@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.os.StrictMode
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -23,6 +24,8 @@ class ManageStudentActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val builder = StrictMode.ThreadPolicy.Builder().permitAll()
+        StrictMode.setThreadPolicy(builder.build())
         setContentView(R.layout.activity_manage_student)
         supportActionBar?.title = "Atur Data Obat"
         i = intent
@@ -97,14 +100,14 @@ class ManageStudentActivity : AppCompatActivity() {
         val loading = ProgressDialog(this)
         loading.setMessage("Menghapus data...")
         loading.show()
-
+        AndroidNetworking.enableLogging()
         AndroidNetworking.get(ApiEndPoint.DELETE + "?code_obat=" + txNim.text.toString())
             .setPriority(Priority.MEDIUM)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
 
                 override fun onResponse(response: JSONObject?) {
-
+                    Log.d("jsonResponse", "jsonArray : " + response?.getString("message"))
                     loading.dismiss()
                     Toast.makeText(
                         applicationContext,
@@ -120,7 +123,7 @@ class ManageStudentActivity : AppCompatActivity() {
 
                 override fun onError(anError: ANError?) {
                     loading.dismiss()
-                    Log.d("ONERROR", anError?.errorDetail?.toString())
+                    Log.d("ONERROR", anError?.toString())
                     Toast.makeText(applicationContext, "Connection Failure", Toast.LENGTH_SHORT)
                         .show()
                 }
@@ -135,7 +138,7 @@ class ManageStudentActivity : AppCompatActivity() {
         val loading = ProgressDialog(this)
         loading.setMessage("Mengubah data...")
         loading.show()
-
+        AndroidNetworking.enableLogging()
         AndroidNetworking.post(ApiEndPoint.UPDATE)
             .addBodyParameter("code_obat", txNim.text.toString())
             .addBodyParameter("nama_obat", txName.text.toString())
@@ -146,7 +149,7 @@ class ManageStudentActivity : AppCompatActivity() {
             .getAsJSONObject(object : JSONObjectRequestListener {
 
                 override fun onResponse(response: JSONObject?) {
-
+                    Log.d("jsonResponse", "jsonArray : " + response?.getString("message"))
                     loading.dismiss()
                     Toast.makeText(
                         applicationContext,
@@ -177,7 +180,7 @@ class ManageStudentActivity : AppCompatActivity() {
         val loading = ProgressDialog(this)
         loading.setMessage("Menambahkan data...")
         loading.show()
-
+        AndroidNetworking.enableLogging()
         AndroidNetworking.post(ApiEndPoint.CREATE)
             .addBodyParameter("code_obat", txNim.text.toString())
             .addBodyParameter("nama_obat", txName.text.toString())
@@ -188,6 +191,7 @@ class ManageStudentActivity : AppCompatActivity() {
             .getAsJSONObject(object : JSONObjectRequestListener {
 
                 override fun onResponse(response: JSONObject?) {
+                    Log.d("jsonResponse", "jsonArray : " + response?.getString("message"))
 
                     loading.dismiss()
                     Toast.makeText(
@@ -204,7 +208,7 @@ class ManageStudentActivity : AppCompatActivity() {
 
                 override fun onError(anError: ANError?) {
                     loading.dismiss()
-                    Log.d("ONERROR", anError?.errorDetail?.toString())
+                    Log.d("ONERROR", anError?.toString())
                     Toast.makeText(applicationContext, "Connection Failure", Toast.LENGTH_SHORT)
                         .show()
                 }
