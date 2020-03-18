@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        isPortOpen("192.168.0.161", 8686, 3000)
+        isPortOpen("192.168.0.11", 8686, 3000)
 
         val okHttpClient = OkHttpClient().newBuilder()
             .addNetworkInterceptor(StethoInterceptor())
@@ -138,15 +138,15 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun loadAllStudents() {
+ fun loadAllStudents() {
         val loading = ProgressDialog(this)
         loading.setMessage("Memuat data...")
         loading.show()
         AndroidNetworking.enableLogging()
         AndroidNetworking.get(ApiEndPoint.READ)
-            .setPriority(Priority.MEDIUM)
-            .build()
-            .getAsJSONObject(object : JSONObjectRequestListener {
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsJSONObject(object : JSONObjectRequestListener {
 
                 override fun onResponse(response: JSONObject?) {
                     arrayList.clear()

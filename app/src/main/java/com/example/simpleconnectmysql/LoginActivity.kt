@@ -1,5 +1,6 @@
 package com.example.simpleconnectmysql
 
+
 import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
@@ -14,6 +15,7 @@ import com.example.simpleconnectmysql.Server.ApiEndPoint
 import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONException
 import org.json.JSONObject
+import java.sql.DriverManager
 
 
 class LoginActivity : AppCompatActivity() {
@@ -32,6 +34,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         supportActionBar?.title = "Login"
+
         val builder = StrictMode.ThreadPolicy.Builder().permitAll()
         StrictMode.setThreadPolicy(builder.build())
         btnSignIn.setOnClickListener {
@@ -42,6 +45,8 @@ class LoginActivity : AppCompatActivity() {
                 ""
             )
         }
+
+        println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 
         btnRegister.setOnClickListener {
             if (i === 0) {
@@ -64,7 +69,6 @@ class LoginActivity : AppCompatActivity() {
         }
 
     }
-
     class AttemptLogin(private val context: Context) : AsyncTask<String?, String?, JSONObject?>() {
 
         override fun onPreExecute() {
@@ -106,6 +110,45 @@ class LoginActivity : AppCompatActivity() {
                         "Unable to retrieve any data from server",
                         Toast.LENGTH_LONG
                     ).show()
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }
+
+    }
+
+    class AttemptLogina() : AsyncTask<String?, String?, JSONObject?>() {
+
+        override fun onPreExecute() {
+            super.onPreExecute()
+        }
+
+
+        override fun doInBackground(vararg args: String?): JSONObject? {
+            var email: String? = args!!.get(2)
+            var password: String? = args.get(1)
+            var name: String? = args.get(0)
+
+            val params = mutableListOf<BaseParam>()
+
+
+            params.add(BaseParam("username", name!!))
+            params.add(BaseParam("password", password!!))
+            if (email!!.length > 0) params.add(BaseParam("email", email))
+
+
+            return jsonParser.makeHttpRequest(URL, "POST", params)
+        }
+
+        override fun onPostExecute(result: JSONObject?) { // dismiss the dialog once product deleted
+//Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+            try {
+                if (result != null) {
+                    println("SUKSES")
+
+                } else {
+                    println("GAGAL")
                 }
             } catch (e: JSONException) {
                 e.printStackTrace()
