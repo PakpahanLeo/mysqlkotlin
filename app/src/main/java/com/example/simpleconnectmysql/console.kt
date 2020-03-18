@@ -7,17 +7,46 @@ import java.sql.ResultSet
 import java.util.*
 
 
+val read = Scanner(System.`in`)
 fun main(args: Array<String>) {
 
-    val read = Scanner(System.`in`)
 
+    var userInput: String
+
+    while (true) { //Print the options for the user to choose from
+        println("*****Apotek Huru hara*****")
+        println("*. Press 1 to Login")
+        println("*. Press 2 to Register")
+        println("*. Press 3 to exit")
+        // Prompt the use to make a choice
+        println("Enter your choice:")
+        //Capture the user input in scanner object and store it in a pre decalred variable
+        userInput = read.next()
+        when (userInput) {
+            "1" ->  //do the job number 1
+                login()
+            "2" ->  //do the job number 2
+                register()
+            "3" -> {
+                //exit from the program
+                println("Exiting...")
+                System.exit(0)
+                //inform user in case of invalid choice.
+                println("Invalid choice. Read the options carefully...")
+            }
+            else -> println("Invalid choice. Read the options carefully...")
+        }
+    }
+
+
+}
+
+fun login() {
     println("Masukkan Username: ")
     var username = read.next()
 
     println("Masukkan Password: ")
     var password = read.next()
-
-
 
     try {
 
@@ -38,36 +67,199 @@ fun main(args: Array<String>) {
     } catch (ex: Exception) {
         ex.printStackTrace()
     }
-
-
 }
 
-fun getDataObat() {
-    var records = ""
-    try {
+fun register() {
 
+    println("Masukkan Username: ")
+    var username = read.next()
+
+    println("Masukkan Password: ")
+    var password = read.next()
+
+    println("Masukkan Email: ")
+    var email = read.next()
+
+    try {
         var conn = getMySqlConnection()
         var statement = conn!!.createStatement()
-        var resultSet = statement.executeQuery("SELECT * FROM tb_student")
-        println("Kode obat: " + "\t" + "Nama obat: " + "\t" + "Harga obat: "+ "\t" + "Jenis obat: ")
-        while (resultSet.next()) {
-            records += resultSet.getString(1) + " " + resultSet.getString(2) + "\n"
-//            println("Daftar nama obat")
-//            println(resultSet.getString(2))
-            println(resultSet.getInt(1).toString() + "\t\t" + resultSet.getString(2)+ "\t\t" + resultSet.getString(3)+ "\t\t" + resultSet.getString(4));
-
+        val query =
+            (" insert into users (username, password, email)"
+                    + " values (?, ?, ?)")
+        val preparedStmt = conn.prepareStatement(query)
+        preparedStmt.setString(1, username)
+        preparedStmt.setString(2, password)
+        preparedStmt.setString(3, email)
+//        preparedStmt.execute()
+        val i: Int = preparedStmt.executeUpdate()
+        if (i > 0) {
+            println("Berhasil daftar")
+        } else {
+            println("Gagal daftar")
         }
+
         conn!!.close()
     } catch (ex: Exception) {
         ex.printStackTrace()
     }
 }
 
-fun getMySqlConnection(): Connection? { //        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//        StrictMode.setThreadPolicy(policy);
-/* Declare and initialize a sql Connection variable. */
-//    var policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-//    StrictMode.setThreadPolicy(policy)
+fun getDataObat() {
+    var records = ""
+    var userInput: String
+    try {
+
+        var conn = getMySqlConnection()
+        var statement = conn!!.createStatement()
+        var resultSet = statement.executeQuery("SELECT * FROM tb_student")
+        println("Kode obat: " + "\t" + "Nama obat: " + "\t" + "Harga obat: " + "\t" + "Jenis obat: ")
+        while (resultSet.next()) {
+            println(
+                resultSet.getInt(1).toString() + "\t\t" + resultSet.getString(2) + "\t\t" + resultSet.getString(
+                    3
+                ) + "\t\t" + resultSet.getString(4)
+            );
+
+        }
+        conn!!.close()
+
+        while (true) { //Print the options for the user to choose from
+            println("*****CRUD Obat*****")
+            println("*. Press 1 to Create")
+            println("*. Press 2 to Update")
+            println("*. Press 3 to Delete")
+            println("*. Press 4 to exit")
+            // Prompt the use to make a choice
+            println("Enter your choice:")
+            //Capture the user input in scanner object and store it in a pre decalred variable
+            userInput = read.next()
+            when (userInput) {
+                "1" ->  //do the job number 1
+                    createObat()
+                "2" ->  //do the job number 2
+                    updateObat()
+                "3" ->  //do the job number 2
+                    deleteObat()
+                "4" -> {
+                    //exit from the program
+                    println("Exiting...")
+                    System.exit(0)
+                    //inform user in case of invalid choice.
+                    println("Invalid choice. Read the options carefully...")
+                }
+                else -> println("Invalid choice. Read the options carefully...")
+            }
+        }
+
+
+    } catch (ex: Exception) {
+        ex.printStackTrace()
+    }
+}
+
+fun createObat() {
+    println("Masukkan Kode Obat: ")
+    var kode_obat = read.nextInt()
+
+    println("Masukkan Nama Obat: ")
+    var nama_obat = read.next()
+
+    println("Masukkan Harga Obat: ")
+    var harga_obat = read.next()
+
+    println("Masukkan Jenis Obat: ")
+    var jenis_obat = read.next()
+
+    try {
+        var conn = getMySqlConnection()
+        var statement = conn!!.createStatement()
+        val query =
+            (" insert into tb_student (code_obat, nama_obat, harga_obat, jenis_obat)"
+                    + " values (?, ?, ?, ?)")
+        val preparedStmt = conn.prepareStatement(query)
+        preparedStmt.setInt(1, kode_obat)
+        preparedStmt.setString(2, nama_obat)
+        preparedStmt.setString(3, harga_obat)
+        preparedStmt.setString(4, jenis_obat)
+//        preparedStmt.execute()
+        val i: Int = preparedStmt.executeUpdate()
+        if (i > 0) {
+            println("Berhasil membuat data obat")
+        } else {
+            println("Gagal membuat data obat")
+        }
+
+        conn!!.close()
+    } catch (ex: Exception) {
+        ex.printStackTrace()
+    }
+}
+
+fun updateObat() {
+    println("Masukkan Kode Obat Yang akan di edit: ")
+    var kode_obat = read.nextInt()
+
+    println("Masukkan Nama Obat: ")
+    var nama_obat = read.next()
+
+    println("Masukkan Harga Obat: ")
+    var harga_obat = read.next()
+
+    println("Masukkan Jenis Obat: ")
+    var jenis_obat = read.next()
+
+
+
+    try {
+        var conn = getMySqlConnection()
+        var statement = conn!!.createStatement()
+        val query =
+            "Update tb_student set nama_obat=?,harga_obat=?,jenis_obat=? where code_obat =$kode_obat"
+        val preparedStmt = conn.prepareStatement(query)
+        preparedStmt.setString(1, nama_obat)
+        preparedStmt.setString(2, harga_obat)
+        preparedStmt.setString(3, jenis_obat)
+//        preparedStmt.execute()
+        val i: Int = preparedStmt.executeUpdate()
+        if (i > 0) {
+            println("Berhasil edit data obat")
+        } else {
+            println("Gagal edit data obat")
+        }
+
+        conn!!.close()
+    } catch (ex: Exception) {
+        ex.printStackTrace()
+    }
+}
+
+fun deleteObat() {
+    println("Masukkan Kode Obat Yang akan di hapus: ")
+    var kode_obat = read.nextInt()
+
+
+    try {
+        var conn = getMySqlConnection()
+        var statement = conn!!.createStatement()
+        val query =
+            "delete from tb_student where code_obat =$kode_obat"
+        val preparedStmt = conn.prepareStatement(query)
+//        preparedStmt.execute()
+        val i: Int = preparedStmt.executeUpdate()
+        if (i > 0) {
+            println("Berhasil hapus data obat")
+        } else {
+            println("Gagal hapus data obat")
+        }
+
+        conn!!.close()
+    } catch (ex: Exception) {
+        ex.printStackTrace()
+    }
+}
+
+
+fun getMySqlConnection(): Connection? {
     var ret: Connection? = null
     try { /* Register for jdbc driver class. */
         Class.forName("com.mysql.jdbc.Driver")
